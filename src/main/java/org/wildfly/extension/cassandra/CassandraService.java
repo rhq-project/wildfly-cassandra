@@ -29,6 +29,9 @@ import org.jboss.msc.service.StartException;
 import org.jboss.msc.service.StopContext;
 import org.jboss.msc.value.InjectedValue;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 /**
  * The cassandra runtime service.
  * Delegates to an adapter {@link CassandraDaemon} that wraps the actual C* services.
@@ -86,7 +89,7 @@ public class CassandraService implements Service<CassandraService> {
 
             System.setProperty("cassandra.config.loader", DMRConfigLoader.class.getName());
 
-            cassandraDaemon = new CassandraDaemon(true);
+            cassandraDaemon = instantiateCassandraDaemon();
             cassandraDaemon.activate();
 
         } catch (Throwable e) {
@@ -111,5 +114,16 @@ public class CassandraService implements Service<CassandraService> {
         // to the default relativeToPath value
         String relativeTo = AbsolutePathService.isAbsoluteUnixOrWindowsPath(path) ? null : relativeToPath;
         return pathManager.resolveRelativePathEntry(path, relativeTo);
+    }
+
+    private static CassandraDaemon instantiateCassandraDaemon() {
+        try {
+            Constructor<CassandraDaemon> ctor = CassandraDaemon.class.getConstructor(boolean.class);
+            return ctor.newInstance(true);
+        } catch (NoSuchMethodException | InvocationTargetException | InstantiationException
+                | IllegalAccessException e) {
+            CassandraLogger.LOGGER.runningUnmanagedCassandra();
+            return new CassandraDaemon();
+        }
     }
 }
