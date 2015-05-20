@@ -33,20 +33,20 @@ import java.util.List;
 public class RootDefinition extends PersistentResourceDefinition {
     public static final RootDefinition INSTANCE = new RootDefinition();
 
-       private RootDefinition() {
-           super(CassandraExtension.SUBSYSTEM_PATH,
-                   CassandraExtension.getResourceDescriptionResolver(),
-                   RootAdd.INSTANCE,
-                   ReloadRequiredRemoveStepHandler.INSTANCE);
-       }
+    private RootDefinition() {
+        super(CassandraExtension.SUBSYSTEM_PATH,
+                CassandraExtension.getResourceDescriptionResolver(),
+                RootAdd.INSTANCE,
+                ReloadRequiredRemoveStepHandler.INSTANCE);
+    }
 
-       @Override
-       public Collection<AttributeDefinition> getAttributes() {
-           return Collections.emptySet();
-       }
+    @Override
+    public Collection<AttributeDefinition> getAttributes() {
+        return Collections.emptySet();
+    }
 
-       @Override
-       protected List<? extends PersistentResourceDefinition> getChildren() {
-           return Arrays.asList(ClusterDefinition.INSTANCE);
-       }
+    @Override
+    protected List<? extends PersistentResourceDefinition> getChildren() {
+        return Arrays.asList(ClusterDefinition.INSTANCE);
+    }
 }

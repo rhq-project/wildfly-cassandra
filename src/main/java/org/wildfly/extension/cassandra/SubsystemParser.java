@@ -35,9 +35,11 @@ import static org.jboss.as.controller.PersistentResourceXMLDescription.builder;
 
 /**
  * The subsystem parser, which uses stax to read and write to and from xml
- *  @author Heiko Braun
+ *
+ * @author Heiko Braun
  */
-public class SubsystemParser implements XMLStreamConstants, XMLElementReader<List<ModelNode>>, XMLElementWriter<SubsystemMarshallingContext> {
+public class SubsystemParser
+        implements XMLStreamConstants, XMLElementReader<List<ModelNode>>, XMLElementWriter<SubsystemMarshallingContext> {
 
     public final static SubsystemParser INSTANCE = new SubsystemParser();
 
@@ -48,7 +50,7 @@ public class SubsystemParser implements XMLStreamConstants, XMLElementReader<Lis
                 .addChild(
                         builder(ClusterDefinition.INSTANCE)
                                 .addAttributes(ClusterDefinition.INSTANCE.getAttributes())
-                )               .setXmlElementName(CassandraModel.CLUSTER)
+                ).setXmlElementName(CassandraModel.CLUSTER)
                 .build();
     }
 
@@ -56,7 +58,8 @@ public class SubsystemParser implements XMLStreamConstants, XMLElementReader<Lis
      * {@inheritDoc}
      */
     @Override
-    public void writeContent(XMLExtendedStreamWriter writer, SubsystemMarshallingContext context) throws XMLStreamException {
+    public void writeContent(XMLExtendedStreamWriter writer,
+            SubsystemMarshallingContext context) throws XMLStreamException {
         ModelNode model = new ModelNode();
         model.get(RootDefinition.INSTANCE.getPathElement().getKeyValuePair()).set(context.getModelNode());//this is bit of workaround for SPRD to work properly
         xmlDescription.persist(writer, model, Namespace.CURRENT.getUriString());
