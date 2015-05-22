@@ -29,7 +29,10 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.List;
 
-import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.*;
+import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.ADD;
+import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.OP;
+import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.OP_ADDR;
+import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.SUBSYSTEM;
 
 
 /**
@@ -47,8 +50,8 @@ public class SubsystemParsingTestCase extends AbstractSubsystemTest {
     }
 
     protected String getSubsystemXml() throws IOException {
-            return readResource("/test-subsystem.xml");
-        }
+        return readResource("/test-subsystem.xml");
+    }
 
     /**
      * Tests that the xml is parsed into the correct operations

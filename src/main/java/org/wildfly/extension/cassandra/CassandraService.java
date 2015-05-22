@@ -29,6 +29,9 @@ import org.jboss.msc.service.StartException;
 import org.jboss.msc.service.StopContext;
 import org.jboss.msc.value.InjectedValue;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 /**
  * The cassandra runtime service.
  * Delegates to an adapter {@link CassandraDaemon} that wraps the actual C* services.
@@ -66,21 +69,27 @@ public class CassandraService implements Service<CassandraService> {
 
             // resolve the path location
             // includes the _clusterName_ suffix to avid conflicts when different configurations are started on the same base system
-            if(null==serviceConfig.data_file_directories)
-                serviceConfig.data_file_directories = new String[]{resolve(pathManager.getValue(), CASSANDRA_DATA_FILE_DIR, ServerEnvironment.SERVER_DATA_DIR)+"/"+clusterName};
+            if (null == serviceConfig.data_file_directories) {
+                serviceConfig.data_file_directories = new String[]{resolve(pathManager.getValue(),
+                        CASSANDRA_DATA_FILE_DIR, ServerEnvironment.SERVER_DATA_DIR) + "/" + clusterName};
+            }
 
-            if(null==serviceConfig.saved_caches_directory)
-                serviceConfig.saved_caches_directory = resolve(pathManager.getValue(), CASSANDRA_SAVED_CACHES_DIR, ServerEnvironment.SERVER_DATA_DIR)+"/"+clusterName;
+            if (null == serviceConfig.saved_caches_directory) {
+                serviceConfig.saved_caches_directory = resolve(pathManager.getValue(), CASSANDRA_SAVED_CACHES_DIR,
+                        ServerEnvironment.SERVER_DATA_DIR) + "/" + clusterName;
+            }
 
-            if(null==serviceConfig.commitlog_directory)
-                serviceConfig.commitlog_directory = resolve(pathManager.getValue(), CASSANDRA_COMMIT_LOG_DIR, ServerEnvironment.SERVER_DATA_DIR)+"/"+clusterName;
+            if (null == serviceConfig.commitlog_directory) {
+                serviceConfig.commitlog_directory = resolve(pathManager.getValue(), CASSANDRA_COMMIT_LOG_DIR,
+                        ServerEnvironment.SERVER_DATA_DIR) + "/" + clusterName;
+            }
 
             // static injection needed due to the way C* initialises it's ConfigLoader
             DMRConfigLoader.CASSANDRA_CONFIG = serviceConfig;
 
             System.setProperty("cassandra.config.loader", DMRConfigLoader.class.getName());
 
-            cassandraDaemon = new CassandraDaemon(true);
+            cassandraDaemon = instantiateCassandraDaemon();
             cassandraDaemon.activate();
 
         } catch (Throwable e) {
@@ -90,14 +99,13 @@ public class CassandraService implements Service<CassandraService> {
 
     @Override
     public void stop(StopContext context) {
-        if(cassandraDaemon!=null)
-        {
+        if (cassandraDaemon != null) {
             CassandraLogger.LOGGER.infof("Stopping cassandra service '%s'.", clusterName);
             cassandraDaemon.deactivate();
         }
     }
 
-    public Injector<PathManager> getPathManagerInjector(){
+    public Injector<PathManager> getPathManagerInjector() {
         return pathManager;
     }
 
@@ -108,4 +116,14 @@ public class CassandraService implements Service<CassandraService> {
         return pathManager.resolveRelativePathEntry(path, relativeTo);
     }
 
+    private static CassandraDaemon instantiateCassandraDaemon() {
+        try {
+            Constructor<CassandraDaemon> ctor = CassandraDaemon.class.getConstructor(boolean.class);
+            return ctor.newInstance(true);
+        } catch (NoSuchMethodException | InvocationTargetException | InstantiationException
+                | IllegalAccessException e) {
+            CassandraLogger.LOGGER.runningUnmanagedCassandra();
+            return new CassandraDaemon();
+        }
+    }
 }

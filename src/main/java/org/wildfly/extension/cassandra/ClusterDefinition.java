@@ -118,7 +118,7 @@ public class ClusterDefinition extends PersistentResourceDefinition {
                     .setRestartAllServices()
                     .build();
 
-    static final SimpleAttributeDefinition BROADCAST_ADDRESS=
+    static final SimpleAttributeDefinition BROADCAST_ADDRESS =
             new SimpleAttributeDefinitionBuilder(CassandraModel.BROADCAST_ADDRESS, ModelType.STRING, false)
                     .setAllowExpression(true)
                     .setRestartAllServices()

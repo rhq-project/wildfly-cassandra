@@ -64,14 +64,18 @@ class ClusterAdd extends AbstractAddStepHandler {
      * {@inheritDoc}
      */
     @Override
-    protected void performRuntime(OperationContext context, ModelNode operation, ModelNode model, ServiceVerificationHandler verificationHandler, List<ServiceController<?>> controllers) throws OperationFailedException {
+    protected void performRuntime(OperationContext context, ModelNode operation, ModelNode model,
+            ServiceVerificationHandler verificationHandler, List<ServiceController<?>> controllers)
+            throws OperationFailedException {
         final PathAddress address = PathAddress.pathAddress(operation.get(OP_ADDR));
         ModelNode fullTree = Resource.Tools.readModel(context.readResource(PathAddress.EMPTY_ADDRESS));
 
         installRuntimeServices(context, address, fullTree, verificationHandler, controllers);
     }
 
-    static void installRuntimeServices(OperationContext context, PathAddress address, ModelNode fullModel, ServiceVerificationHandler verificationHandler, List<ServiceController<?>> controllers) throws OperationFailedException {
+    static void installRuntimeServices(OperationContext context, PathAddress address, ModelNode fullModel,
+            ServiceVerificationHandler verificationHandler, List<ServiceController<?>> controllers)
+            throws OperationFailedException {
         String clusterName = address.getLastElement().getValue();
 
         final Config serviceConfig = createServiceConfig(context, address, fullModel);
@@ -87,7 +91,8 @@ class ClusterAdd extends AbstractAddStepHandler {
 
     }
 
-    private static Config createServiceConfig(final OperationContext context, PathAddress address, ModelNode fullModel) throws OperationFailedException {
+    private static Config createServiceConfig(final OperationContext context, PathAddress address,
+            ModelNode fullModel) throws OperationFailedException {
 
         final ExpressionResolver expressionResolver = new ExpressionResolver() {
             @Override
@@ -99,12 +104,12 @@ class ClusterAdd extends AbstractAddStepHandler {
         // create the actual cassandra config singleton
         final Config cassandraConfig = new Config();
         cassandraConfig.cluster_name = address.getLastElement().getValue();
-        cassandraConfig.num_tokens= ClusterDefinition.NUM_TOKENS.resolveModelAttribute(context, fullModel).asInt();
+        cassandraConfig.num_tokens = ClusterDefinition.NUM_TOKENS.resolveModelAttribute(context, fullModel).asInt();
         cassandraConfig.hinted_handoff_enabled = ClusterDefinition.HINTED_HANDOFF_ENABLED.resolveModelAttribute(context, fullModel).asString();
 
         cassandraConfig.authenticator = ClusterDefinition.AUTHENTICATOR.resolveModelAttribute(context, fullModel).asString();
-        cassandraConfig.authorizer= ClusterDefinition.AUTHORIZER.resolveModelAttribute(context, fullModel).asString();
-        cassandraConfig.partitioner= ClusterDefinition.PARTIONER.resolveModelAttribute(context, fullModel).asString();
+        cassandraConfig.authorizer = ClusterDefinition.AUTHORIZER.resolveModelAttribute(context, fullModel).asString();
+        cassandraConfig.partitioner = ClusterDefinition.PARTIONER.resolveModelAttribute(context, fullModel).asString();
 
         // The cassandra config is a real brainfuck
         LinkedHashMap providerConfig = new LinkedHashMap();
@@ -121,28 +126,28 @@ class ClusterAdd extends AbstractAddStepHandler {
         cassandraConfig.listen_address = ClusterDefinition.LISTEN_ADDRESS.resolveModelAttribute(expressionResolver, fullModel).asString();
         cassandraConfig.broadcast_address = ClusterDefinition.BROADCAST_ADDRESS.resolveModelAttribute(expressionResolver, fullModel).asString();
 
-        cassandraConfig.start_native_transport= ClusterDefinition.START_NATIVE_TRANSPORT.resolveModelAttribute(context, fullModel).asBoolean();
+        cassandraConfig.start_native_transport = ClusterDefinition.START_NATIVE_TRANSPORT.resolveModelAttribute(context, fullModel).asBoolean();
         cassandraConfig.start_rpc = ClusterDefinition.START_RPC.resolveModelAttribute(context, fullModel).asBoolean();
 
-        cassandraConfig.native_transport_port= ClusterDefinition.NATIVE_TRANSPORT_PORT.resolveModelAttribute(context, fullModel).asInt();
-        cassandraConfig.rpc_port= ClusterDefinition.RPC_PORT.resolveModelAttribute(context, fullModel).asInt();
+        cassandraConfig.native_transport_port = ClusterDefinition.NATIVE_TRANSPORT_PORT.resolveModelAttribute(context, fullModel).asInt();
+        cassandraConfig.rpc_port = ClusterDefinition.RPC_PORT.resolveModelAttribute(context, fullModel).asInt();
 
-        cassandraConfig.internode_authenticator= ClusterDefinition.INTERNODE_AUTHENTICATOR.resolveModelAttribute(context, fullModel).asString();
+        cassandraConfig.internode_authenticator = ClusterDefinition.INTERNODE_AUTHENTICATOR.resolveModelAttribute(context, fullModel).asString();
 
-        if(fullModel.hasDefined(CassandraModel.DATA_FILE_DIR))
-            cassandraConfig.data_file_directories= new String[]{ClusterDefinition.DATA_FILE_DIR.resolveModelAttribute(context, fullModel).asString()};
+        if (fullModel.hasDefined(CassandraModel.DATA_FILE_DIR))
+            cassandraConfig.data_file_directories = new String[]{ClusterDefinition.DATA_FILE_DIR.resolveModelAttribute(context, fullModel).asString()};
 
-        if(fullModel.hasDefined(CassandraModel.SAVED_CACHES_DIR))
-            cassandraConfig.saved_caches_directory= ClusterDefinition.SAVED_CACHES_DIR.resolveModelAttribute(context, fullModel).asString();
+        if (fullModel.hasDefined(CassandraModel.SAVED_CACHES_DIR))
+            cassandraConfig.saved_caches_directory = ClusterDefinition.SAVED_CACHES_DIR.resolveModelAttribute(context, fullModel).asString();
 
-        if(fullModel.hasDefined(CassandraModel.COMMIT_LOG_DIR))
-            cassandraConfig.commitlog_directory= ClusterDefinition.COMMIT_LOG_DIR.resolveModelAttribute(context, fullModel).asString();
+        if (fullModel.hasDefined(CassandraModel.COMMIT_LOG_DIR))
+            cassandraConfig.commitlog_directory = ClusterDefinition.COMMIT_LOG_DIR.resolveModelAttribute(context, fullModel).asString();
 
-        cassandraConfig.commitlog_sync= Config.CommitLogSync.valueOf(ClusterDefinition.COMMIT_LOG_SYNC.resolveModelAttribute(context, fullModel).asString());
+        cassandraConfig.commitlog_sync = Config.CommitLogSync.valueOf(ClusterDefinition.COMMIT_LOG_SYNC.resolveModelAttribute(context, fullModel).asString());
         cassandraConfig.commitlog_sync_period_in_ms = ClusterDefinition.COMMIT_LOG_SYNC_PERIOD.resolveModelAttribute(context, fullModel).asInt();
 
-        cassandraConfig.endpoint_snitch= ClusterDefinition.ENDPOINT_SNITCH.resolveModelAttribute(context, fullModel).asString();
-        cassandraConfig.request_scheduler= ClusterDefinition.REQUEST_SCHEDULER.resolveModelAttribute(context, fullModel).asString();
+        cassandraConfig.endpoint_snitch = ClusterDefinition.ENDPOINT_SNITCH.resolveModelAttribute(context, fullModel).asString();
+        cassandraConfig.request_scheduler = ClusterDefinition.REQUEST_SCHEDULER.resolveModelAttribute(context, fullModel).asString();
 
         // TODO: encryption options
         //cassandraConfig.server_encryption_options =

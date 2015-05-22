@@ -40,7 +40,8 @@ public class ClusterWriteAttributeHandler extends RestartParentWriteAttributeHan
     }
 
     @Override
-    protected void recreateParentService(OperationContext context, PathAddress parentAddress, ModelNode parentModel, ServiceVerificationHandler verificationHandler) throws OperationFailedException {
+    protected void recreateParentService(OperationContext context, PathAddress parentAddress, ModelNode parentModel,
+            ServiceVerificationHandler verificationHandler) throws OperationFailedException {
         ClusterAdd.installRuntimeServices(context, parentAddress, parentModel, verificationHandler, new ArrayList<ServiceController<?>>());
     }
 
@@ -50,7 +51,8 @@ public class ClusterWriteAttributeHandler extends RestartParentWriteAttributeHan
     }
 
     @Override
-    protected void removeServices(OperationContext context, ServiceName parentService, ModelNode parentModel) throws OperationFailedException {
+    protected void removeServices(OperationContext context, ServiceName parentService,
+            ModelNode parentModel) throws OperationFailedException {
         super.removeServices(context, parentService, parentModel);
     }
 }

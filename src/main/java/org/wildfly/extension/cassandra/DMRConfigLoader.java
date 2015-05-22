@@ -33,7 +33,7 @@ public class DMRConfigLoader implements ConfigurationLoader {
 
     @Override
     public Config loadConfig() throws ConfigurationException {
-        if(null==CASSANDRA_CONFIG)
+        if (null == CASSANDRA_CONFIG)
             throw new IllegalStateException("Cassandra config not initialized");
 
         return CASSANDRA_CONFIG;
