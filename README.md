@@ -26,9 +26,9 @@ Build the top level project:
 
 `mvn clean install`
 
-This will also create a wildfly-cassandra-module.zip, that can be installed on Wildfly:
+This will also create a wildfly-cassandra-overlay.zip, that can be installed on Wildfly:
 
-`unzip target/wildfly-cassandra-module.zip -d $WILDFLY_HOME`
+`unzip target/wildfly-cassandra-overlay.zip -d $WILDFLY_HOME`
 
 This will add an additional module that contains the cassandra extension and subsystem:
 
@@ -36,7 +36,7 @@ This will add an additional module that contains the cassandra extension and sub
 
 ### Package Contents
 
-The following contents will be installed when you unpack the wildfly-cassandra-module.zip:
+The following contents will be installed when you unpack the wildfly-cassandra-overlay.zip:
 
 <pre>
  bin/nodetool (1)
@@ -58,7 +58,7 @@ The following contents will be installed when you unpack the wildfly-cassandra-m
 
 ## Server Configuration Profiles
 
-The wildfly-cassandra-module.zip server profiles for both standalone and domain mode that can be used to start a pre-configured Wildfly instance:
+The wildfly-cassandra-overlay.zip installs server profiles for both standalone and domain mode that can be used to start a pre-configured Wildfly instance:
 
 ### Standalone Mode
 
