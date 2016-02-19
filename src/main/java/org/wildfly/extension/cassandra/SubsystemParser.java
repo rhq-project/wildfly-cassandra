@@ -18,7 +18,6 @@
 package org.wildfly.extension.cassandra;
 
 import org.jboss.as.controller.PathAddress;
-import org.jboss.as.controller.PersistentResourceXMLDescription;
 import org.jboss.as.controller.persistence.SubsystemMarshallingContext;
 import org.jboss.dmr.ModelNode;
 import org.jboss.staxmapper.XMLElementReader;
@@ -30,7 +29,7 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import java.util.List;
 
-import static org.jboss.as.controller.PersistentResourceXMLDescription.builder;
+import static org.wildfly.extension.cassandra.PersistentResourceXMLDescription.builder;
 
 
 /**

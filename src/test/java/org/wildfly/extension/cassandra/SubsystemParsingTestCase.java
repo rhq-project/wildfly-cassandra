@@ -82,7 +82,7 @@ public class SubsystemParsingTestCase extends AbstractSubsystemTest {
     public void testInstallIntoController() throws Exception {
         //Parse the subsystem xml and install into the controller
         String subsystemXml = getSubsystemXml();
-        KernelServices services = super.createKernelServicesBuilder(null).setSubsystemXml(subsystemXml).build();
+        KernelServices services = super.installInController(subsystemXml);
 
         //Read the whole model and make sure it looks as expected
         ModelNode model = services.readWholeModel();
@@ -97,13 +97,13 @@ public class SubsystemParsingTestCase extends AbstractSubsystemTest {
     public void testParseAndMarshalModel() throws Exception {
         //Parse the subsystem xml and install into the first controller
         String subsystemXml = getSubsystemXml();
-        KernelServices servicesA = super.createKernelServicesBuilder(null).setSubsystemXml(subsystemXml).build();
+        KernelServices servicesA = super.installInController(subsystemXml);
         //Get the model and the persisted xml from the first controller
         ModelNode modelA = servicesA.readWholeModel();
         String marshalled = servicesA.getPersistedSubsystemXml();
 
         //Install the persisted xml from the first controller into a second controller
-        KernelServices servicesB = super.createKernelServicesBuilder(null).setSubsystemXml(marshalled).build();
+        KernelServices servicesB = super.installInController(marshalled);
         ModelNode modelB = servicesB.readWholeModel();
 
         //Make sure the models from the two controllers are identical
@@ -117,7 +117,7 @@ public class SubsystemParsingTestCase extends AbstractSubsystemTest {
     public void testSubsystemRemoval() throws Exception {
         //Parse the subsystem xml and install into the first controller
         String subsystemXml = getSubsystemXml();
-        KernelServices services = super.createKernelServicesBuilder(null).setSubsystemXml(subsystemXml).build();
+        KernelServices services = super.installInController(subsystemXml);
         //Checks that the subsystem was removed from the model
         super.assertRemoveSubsystemResources(services);
 
