@@ -34,6 +34,8 @@ import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.NAM
  * @author Stuart Douglas
  */
 public class PersistentResourceXMLDescription {
+	
+	protected static final AttributeMarshaller attributeMarshaller = new DefaultAttributeMarshaller();
 
     protected final PersistentResourceDefinition resourceDefinition;
     protected final String xmlElementName;
@@ -192,7 +194,7 @@ public class PersistentResourceXMLDescription {
                     writer.writeAttribute(NAME, p.getName());
                 }
                 for (Map.Entry<String, AttributeDefinition> def : attributes.entrySet()) {
-                    def.getValue().getAttributeMarshaller().marshallAsAttribute(def.getValue(), p.getValue(), false, writer);
+                    attributeMarshaller.marshallAsAttribute(def.getValue(), p.getValue(), false, writer);
                 }
                 persistChildren(writer, p.getValue());
                 writer.writeEndElement();
@@ -207,7 +209,7 @@ public class PersistentResourceXMLDescription {
 
             }
             for (Map.Entry<String, AttributeDefinition> def : attributes.entrySet()) {
-                def.getValue().getAttributeMarshaller().marshallAsAttribute(def.getValue(), model, true, writer);
+                attributeMarshaller.marshallAsAttribute(def.getValue(), model, true, writer);
             }
             persistChildren(writer, model);
 
