@@ -81,18 +81,11 @@ public class PersistentResourceXMLDescription {
                 name = value;
             } else if (attributes.containsKey(attributeName)) {
                 AttributeDefinition def = attributes.get(attributeName);
-                AttributeParser parser = attributeParsers.containsKey(attributeName)? attributeParsers.get(attributeName) : def.getParser();
+                AttributeParser parser = attributeParsers.containsKey(attributeName)? attributeParsers.get(attributeName) : AttributeParser.SIMPLE;
                 assert parser != null;
                 parser.parseAndSetParameter(def,value,op,reader);
             } else {
                 throw ParseUtils.unexpectedAttribute(reader, i);
-            }
-        }
-        for (AttributeDefinition attributeDefinition: attributes.values()){
-            if (attributeDefinition instanceof PropertiesAttributeDefinition){
-                PropertiesAttributeDefinition attribute = (PropertiesAttributeDefinition) attributeDefinition;
-                attribute.parse(reader,op);
-                flushRequired = false;
             }
         }
         if (wildcard && name == null) {
