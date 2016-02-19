@@ -94,13 +94,6 @@ class ClusterAdd extends AbstractAddStepHandler {
     private static Config createServiceConfig(final OperationContext context, PathAddress address,
             ModelNode fullModel) throws OperationFailedException {
 
-        final ExpressionResolver expressionResolver = new ExpressionResolver() {
-            @Override
-            public ModelNode resolveExpressions(ModelNode node) throws OperationFailedException {
-                return context.resolveExpressions(node);
-            }
-        };
-
         // create the actual cassandra config singleton
         final Config cassandraConfig = new Config();
         cassandraConfig.cluster_name = address.getLastElement().getValue();
@@ -115,7 +108,7 @@ class ClusterAdd extends AbstractAddStepHandler {
         LinkedHashMap providerConfig = new LinkedHashMap();
         providerConfig.put("class_name", ClusterDefinition.SEED_PROVIDER.resolveModelAttribute(context, fullModel).asString());
         HashMap<String, String> params = new HashMap<String, String>();
-        params.put("seeds", ClusterDefinition.SEEDS.resolveModelAttribute(expressionResolver, fullModel).asString());
+        params.put("seeds", ClusterDefinition.SEEDS.resolveModelAttribute(context, fullModel).asString());
         ArrayList wrapper = new ArrayList();
         wrapper.add(params);
         providerConfig.put("parameters", wrapper);
@@ -123,8 +116,8 @@ class ClusterAdd extends AbstractAddStepHandler {
         SeedProviderDef providerDef = new SeedProviderDef(providerConfig);
         cassandraConfig.seed_provider = providerDef;
 
-        cassandraConfig.listen_address = ClusterDefinition.LISTEN_ADDRESS.resolveModelAttribute(expressionResolver, fullModel).asString();
-        cassandraConfig.broadcast_address = ClusterDefinition.BROADCAST_ADDRESS.resolveModelAttribute(expressionResolver, fullModel).asString();
+        cassandraConfig.listen_address = ClusterDefinition.LISTEN_ADDRESS.resolveModelAttribute(context, fullModel).asString();
+        cassandraConfig.broadcast_address = ClusterDefinition.BROADCAST_ADDRESS.resolveModelAttribute(context, fullModel).asString();
 
         cassandraConfig.start_native_transport = ClusterDefinition.START_NATIVE_TRANSPORT.resolveModelAttribute(context, fullModel).asBoolean();
         cassandraConfig.start_rpc = ClusterDefinition.START_RPC.resolveModelAttribute(context, fullModel).asBoolean();

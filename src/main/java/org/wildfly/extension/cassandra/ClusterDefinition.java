@@ -261,7 +261,6 @@ public class ClusterDefinition extends PersistentResourceDefinition {
         return CHILDREN;
     }
 
-    @Override
     public List<AccessConstraintDefinition> getAccessConstraints() {
         return accessConstraints;
     }
