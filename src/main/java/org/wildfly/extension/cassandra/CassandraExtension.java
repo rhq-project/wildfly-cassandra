@@ -21,6 +21,7 @@ import org.jboss.as.controller.Extension;
 import org.jboss.as.controller.ExtensionContext;
 import org.jboss.as.controller.PathElement;
 import org.jboss.as.controller.SubsystemRegistration;
+import org.jboss.as.controller.descriptions.ModelDescriptionConstants;
 import org.jboss.as.controller.descriptions.StandardResourceDescriptionResolver;
 import org.jboss.as.controller.operations.common.GenericSubsystemDescribeHandler;
 import org.jboss.as.controller.parsing.ExtensionParsingContext;
@@ -43,7 +44,6 @@ public class CassandraExtension implements Extension {
      * The name of our subsystem within the model.
      */
     public static final String SUBSYSTEM_NAME = "cassandra";
-
 
     protected static final PathElement SUBSYSTEM_PATH = PathElement.pathElement(SUBSYSTEM, SUBSYSTEM_NAME);
     protected static PathElement CLUSTER_PATH = PathElement.pathElement(CassandraModel.CLUSTER);
@@ -68,7 +68,7 @@ public class CassandraExtension implements Extension {
     public void initialize(ExtensionContext context) {
         final SubsystemRegistration subsystem = context.registerSubsystem(SUBSYSTEM_NAME, 1, 0);
         final ManagementResourceRegistration registration = subsystem.registerSubsystemModel(RootDefinition.INSTANCE);
-        registration.registerOperationHandler(GenericSubsystemDescribeHandler.DEFINITION, GenericSubsystemDescribeHandler.INSTANCE);
+        registration.registerOperationHandler(ModelDescriptionConstants.DESCRIBE, GenericSubsystemDescribeHandler.INSTANCE, CassandraModelDescriptionProvider.INSTANCE);
         subsystem.registerXMLElementWriter(SubsystemParser.INSTANCE);
     }
 

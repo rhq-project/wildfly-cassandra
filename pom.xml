@@ -42,6 +42,7 @@
     <version.cassandra.all>2.1.5</version.cassandra.all>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <module.name>org.wildfly.extension.cassandra</module.name>
+    <version.jboss>7.1.2.Final</version.jboss>
   </properties>
 
   <scm>
@@ -120,28 +121,25 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.wildfly</groupId>
-        <artifactId>wildfly-controller</artifactId>
-        <version>${version.wildfly}</version>
+        <groupId>org.jboss.as</groupId>
+        <artifactId>jboss-as-server</artifactId>
+        <version>${version.jboss}</version>
       </dependency>
       <dependency>
-        <groupId>org.wildfly</groupId>
-        <artifactId>wildfly-server</artifactId>
-        <version>${version.wildfly}</version>
+        <groupId>org.jboss.as</groupId>
+        <artifactId>jboss-as-subsystem-test</artifactId>
+        <version>${version.jboss}</version>
       </dependency>
       <dependency>
-        <groupId>org.wildfly</groupId>
-        <artifactId>wildfly-subsystem-test</artifactId>
-        <type>pom</type>
-        <scope>test</scope>
-        <version>${version.wildfly}</version>
+        <groupId>org.jboss.as</groupId>
+        <artifactId>jboss-as-controller</artifactId>
+        <version>${version.jboss}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.logging</groupId>
         <artifactId>jboss-logging</artifactId>
         <version>${version.org.jboss.logging.jboss-logging}</version>
       </dependency>
-
       <dependency>
         <groupId>org.jboss.logging</groupId>
         <artifactId>jboss-logging-annotations</artifactId>
@@ -192,20 +190,17 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.wildfly</groupId>
-      <artifactId>wildfly-controller</artifactId>
+      <groupId>org.jboss.as</groupId>
+      <artifactId>jboss-as-controller</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.wildfly</groupId>
-      <artifactId>wildfly-server</artifactId>
+      <groupId>org.jboss.as</groupId>
+      <artifactId>jboss-as-subsystem-test</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.wildfly</groupId>
-      <artifactId>wildfly-subsystem-test</artifactId>
-      <type>pom</type>
-      <scope>test</scope>
+      <groupId>org.jboss.as</groupId>
+      <artifactId>jboss-as-server</artifactId>
     </dependency>
-
     <dependency>
       <groupId>org.jboss.logging</groupId>
       <artifactId>jboss-logging-annotations</artifactId>

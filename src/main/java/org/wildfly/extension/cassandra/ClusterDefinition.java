@@ -18,16 +18,13 @@
 package org.wildfly.extension.cassandra;
 
 import org.jboss.as.controller.AttributeDefinition;
-import org.jboss.as.controller.PersistentResourceDefinition;
-import org.jboss.as.controller.ServiceRemoveStepHandler;
 import org.jboss.as.controller.SimpleAttributeDefinition;
 import org.jboss.as.controller.SimpleAttributeDefinitionBuilder;
-import org.jboss.as.controller.access.constraint.ApplicationTypeConfig;
-import org.jboss.as.controller.access.management.AccessConstraintDefinition;
-import org.jboss.as.controller.access.management.ApplicationTypeAccessConstraintDefinition;
 import org.jboss.as.controller.registry.ManagementResourceRegistration;
 import org.jboss.dmr.ModelNode;
 import org.jboss.dmr.ModelType;
+import org.wildfly.extension.cassandra.future.PersistentResourceDefinition;
+import org.wildfly.extension.cassandra.future.ServiceRemoveStepHandler;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -42,16 +39,11 @@ import java.util.List;
  */
 public class ClusterDefinition extends PersistentResourceDefinition {
 
-    private final List<AccessConstraintDefinition> accessConstraints;
-
     private ClusterDefinition() {
         super(CassandraExtension.CLUSTER_PATH,
                 CassandraExtension.getResourceDescriptionResolver(CassandraModel.CLUSTER),
                 ClusterAdd.INSTANCE,
                 new ServiceRemoveStepHandler(ClusterAdd.SERVICE_NAME, ClusterAdd.INSTANCE));
-
-        ApplicationTypeConfig atc = new ApplicationTypeConfig(CassandraExtension.SUBSYSTEM_NAME, CassandraModel.CLUSTER);
-        accessConstraints = new ApplicationTypeAccessConstraintDefinition(atc).wrapAsList();
     }
 
     // -----------
@@ -260,11 +252,5 @@ public class ClusterDefinition extends PersistentResourceDefinition {
     protected List<? extends PersistentResourceDefinition> getChildren() {
         return CHILDREN;
     }
-
-    @Override
-    public List<AccessConstraintDefinition> getAccessConstraints() {
-        return accessConstraints;
-    }
-
 
 }

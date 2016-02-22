@@ -18,19 +18,20 @@
 package org.wildfly.extension.cassandra;
 
 import org.jboss.as.controller.PathAddress;
-import org.jboss.as.controller.PersistentResourceXMLDescription;
 import org.jboss.as.controller.persistence.SubsystemMarshallingContext;
 import org.jboss.dmr.ModelNode;
 import org.jboss.staxmapper.XMLElementReader;
 import org.jboss.staxmapper.XMLElementWriter;
 import org.jboss.staxmapper.XMLExtendedStreamReader;
 import org.jboss.staxmapper.XMLExtendedStreamWriter;
+import org.wildfly.extension.cassandra.future.PersistentResourceXMLDescription;
 
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
-import java.util.List;
 
-import static org.jboss.as.controller.PersistentResourceXMLDescription.builder;
+import static org.wildfly.extension.cassandra.future.PersistentResourceXMLDescription.builder;
+
+import java.util.List;
 
 
 /**
