@@ -1,4 +1,4 @@
-package org.wildfly.extension.cassandra;
+package org.wildfly.extension.cassandra.future;
 
 import java.util.ArrayList;
 

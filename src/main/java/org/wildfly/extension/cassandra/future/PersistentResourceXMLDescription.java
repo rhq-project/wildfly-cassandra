@@ -1,4 +1,4 @@
-package org.wildfly.extension.cassandra;
+package org.wildfly.extension.cassandra.future;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,7 +35,7 @@ import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.NAM
  */
 public class PersistentResourceXMLDescription {
 	
-	protected static final AttributeMarshaller attributeMarshaller = new DefaultAttributeMarshaller();
+	protected static final AttributeMarshaller MARSHALLER = new DefaultAttributeMarshaller();
 
     protected final PersistentResourceDefinition resourceDefinition;
     protected final String xmlElementName;
@@ -194,7 +194,7 @@ public class PersistentResourceXMLDescription {
                     writer.writeAttribute(NAME, p.getName());
                 }
                 for (Map.Entry<String, AttributeDefinition> def : attributes.entrySet()) {
-                    attributeMarshaller.marshallAsAttribute(def.getValue(), p.getValue(), false, writer);
+                    MARSHALLER.marshallAsAttribute(def.getValue(), p.getValue(), false, writer);
                 }
                 persistChildren(writer, p.getValue());
                 writer.writeEndElement();
@@ -209,7 +209,7 @@ public class PersistentResourceXMLDescription {
 
             }
             for (Map.Entry<String, AttributeDefinition> def : attributes.entrySet()) {
-                attributeMarshaller.marshallAsAttribute(def.getValue(), model, true, writer);
+                MARSHALLER.marshallAsAttribute(def.getValue(), model, true, writer);
             }
             persistChildren(writer, model);
 

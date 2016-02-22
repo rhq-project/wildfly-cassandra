@@ -24,12 +24,14 @@ import org.jboss.staxmapper.XMLElementReader;
 import org.jboss.staxmapper.XMLElementWriter;
 import org.jboss.staxmapper.XMLExtendedStreamReader;
 import org.jboss.staxmapper.XMLExtendedStreamWriter;
+import org.wildfly.extension.cassandra.future.PersistentResourceXMLDescription;
 
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
-import java.util.List;
 
-import static org.wildfly.extension.cassandra.PersistentResourceXMLDescription.builder;
+import static org.wildfly.extension.cassandra.future.PersistentResourceXMLDescription.builder;
+
+import java.util.List;
 
 
 /**

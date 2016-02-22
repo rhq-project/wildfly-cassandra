@@ -44,7 +44,6 @@ public class CassandraExtension implements Extension {
      * The name of our subsystem within the model.
      */
     public static final String SUBSYSTEM_NAME = "cassandra";
-    
 
     protected static final PathElement SUBSYSTEM_PATH = PathElement.pathElement(SUBSYSTEM, SUBSYSTEM_NAME);
     protected static PathElement CLUSTER_PATH = PathElement.pathElement(CassandraModel.CLUSTER);

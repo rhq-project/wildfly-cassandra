@@ -19,6 +19,7 @@ package org.wildfly.extension.cassandra;
 
 import org.jboss.as.controller.AttributeDefinition;
 import org.jboss.as.controller.ReloadRequiredRemoveStepHandler;
+import org.wildfly.extension.cassandra.future.PersistentResourceDefinition;
 
 import java.util.Arrays;
 import java.util.Collection;

@@ -23,6 +23,8 @@ import org.jboss.as.controller.SimpleAttributeDefinitionBuilder;
 import org.jboss.as.controller.registry.ManagementResourceRegistration;
 import org.jboss.dmr.ModelNode;
 import org.jboss.dmr.ModelType;
+import org.wildfly.extension.cassandra.future.PersistentResourceDefinition;
+import org.wildfly.extension.cassandra.future.ServiceRemoveStepHandler;
 
 import java.util.Arrays;
 import java.util.Collection;

@@ -1,4 +1,4 @@
-package org.wildfly.extension.cassandra;
+package org.wildfly.extension.cassandra.future;
 
 /*
  * JBoss, Home of Professional Open Source.
